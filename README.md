@@ -8,6 +8,11 @@ I have included the test that comes with the NIST publication for the 256
 bit cipher, and I have also tested it myself, but go ahead and try it
 before you put it in your project.
 
+This code uses 32-bit WORDs instead of 8-bit BYTEs for receiving the 16 byte
+input block to cipher. This robs it of efficiency because of how I coded it.
+If you want an implementation based on bytes, there are several on GitHub
+to use.
+
 Compile and try it:
 
 ```
