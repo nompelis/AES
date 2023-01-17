@@ -28,3 +28,4 @@ void inCrypto_AES256_DecipherBlock( const struct AES256_key_s* k,
 }
 #endif
 
+#endif

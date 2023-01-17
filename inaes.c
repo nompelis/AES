@@ -2,13 +2,23 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "inaes.h"
+
+// The definitions in the header file are:
+//   typedef unsigned char BYTE;
+//   typedef unsigned int WORD;
+// 
+//   struct AES256_key_s {
+//      WORD key[8];
+//      WORD w[4*15];
+//   };
+
+
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-
-typedef unsigned char BYTE;
-typedef unsigned int WORD;
 
 const BYTE Rijndael_Sbox_forward[] = {
   0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76,
@@ -53,12 +63,6 @@ const BYTE Rijndael_Sbox_backward[] = {
    (( (WORD) sbox[ (word >> 16) & 0x000000FF ] ) << 16) | \
    (( (WORD) sbox[ (word >>  8) & 0x000000FF ] ) <<  8) | \
    (( (WORD) sbox[ (word      ) & 0x000000FF ] )      )   )
-
-
-struct AES256_key_s {
-   WORD key[8];
-   WORD w[4*15];
-};
 
 
 //
@@ -634,16 +638,16 @@ printf("================= cipher example ===================\n" );
    unsigned char in[4*4];
    unsigned char m;
    for(m=0;m<16;++m) in[m] = (m << 4) + m;
-printf("Plaintext in hex: ");
-for(m=0;m<16;++m) { printf("%.2x", in[m] ); } printf("\n");//HACK
+  printf("Plaintext in hex: ");
+  for(m=0;m<16;++m) { printf("%.2x", in[m] ); } printf("\n");//HACK
 
    inCrypto_AES256_KeyExpansion( &k );
    inCrypto_AES256_CipherBlock( &k, in );
-printf("Ciphertext in hex: ");
-for(m=0;m<16;++m) { printf("%.2x", in[m] ); } printf("\n");//HACK
+  printf("Ciphertext in hex: ");
+  for(m=0;m<16;++m) { printf("%.2x", in[m] ); } printf("\n");//HACK
    inCrypto_AES256_DecipherBlock( &k, in );
-printf("Plain text: ");
-for(m=0;m<16;++m) { printf("%.2x", in[m] ); } printf("\n");//HACK
+  printf("Plain text: ");
+  for(m=0;m<16;++m) { printf("%.2x", in[m] ); } printf("\n");//HACK
 
    return 0;
 }
