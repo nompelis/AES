@@ -23,10 +23,15 @@ Compile and try it with diagnostics turned on:
 ```
   gcc -g -Wall -D_DRIVER_ -D_DEBUG_AES_ inaes.c
 ```
+Compile with a demonstration of using the utility function to store the key
+from a stream of bytes:
+```
+  gcc -g -Wall -D_DRIVER_ -D_UTIL_ inaes.c
+```
 
 You can compile it as an object file and use it with the header file's API.
 
 Consider this GPL licensed code.
 
-IN 2023/01/10
+IN 2025/06/04
 

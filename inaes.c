@@ -595,6 +595,18 @@ void inCrypto_AES256_DecipherBlock( const struct AES256_key_s* k,
 }
 
 
+// Endian-ness agnostic building of key given in "big endian" 32 bytes form
+void inCrypto_AES256_SetKey( struct AES256_key_s* k, uint8_t bytes[32] )
+{
+   for(size_t n=0;n<8;++n) {
+      k->key[n] = (bytes[n*4  ] << 24)
+                | (bytes[n*4+1] << 16)
+                | (bytes[n*4+2] << 8 )
+                | (bytes[n*4+3]      );
+   }
+}
+
+
 #ifdef _DRIVER_
 int main( int argc, char *argv[] )
 {
@@ -645,6 +657,23 @@ printf("================= cipher example ===================\n" );
    inCrypto_AES256_CipherBlock( &k, in );
   printf("Ciphertext in hex: ");
   for(m=0;m<16;++m) { printf("%.2x", in[m] ); } printf("\n");//HACK
+
+// Compiler with '-D _UTIL_' to demonstrate the use of the utility function
+#ifdef _UTIL_
+   printf("Using the utility function to store the key\n");
+   uint8_t bytes[] = {
+        0x00, 0x01, 0x02, 0x03,
+        0x04, 0x05, 0x06, 0x07,
+        0x08, 0x09, 0x0a, 0x0b,
+        0x0c, 0x0d, 0x0e, 0x0f,
+        0x10, 0x11, 0x12, 0x13,
+        0x14, 0x15, 0x16, 0x17,
+        0x18, 0x19, 0x1a, 0x1b,
+        0x1c, 0x1d, 0x1e, 0x1f };
+   inCrypto_AES256_SetKey( &k, bytes );
+   inCrypto_AES256_KeyExpansion( &k );    // re-expanding after re-setting
+#endif
+
    inCrypto_AES256_DecipherBlock( &k, in );
   printf("Plain text: ");
   for(m=0;m<16;++m) { printf("%.2x", in[m] ); } printf("\n");//HACK

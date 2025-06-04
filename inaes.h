@@ -2,6 +2,8 @@
 #ifndef _INAES_H_
 #define _INAES_H_
 
+#include <stdint.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -23,6 +25,9 @@ void inCrypto_AES256_CipherBlock( const struct AES256_key_s* k,
 
 void inCrypto_AES256_DecipherBlock( const struct AES256_key_s* k,
                                     unsigned char in[4*4]  );
+
+void inCrypto_AES256_SetKey( struct AES256_key_s* k, uint8_t bytes[32] );
+
 
 #ifdef __cplusplus
 }
